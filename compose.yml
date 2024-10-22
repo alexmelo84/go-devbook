@@ -1,0 +1,35 @@
+services:
+  api:
+    image: golang:latest
+    container_name: api-devbook
+    restart: on-failure
+    tty: true
+    build: .
+    ports:
+      - 5000:5000
+    working_dir: /usr/src/app
+    volumes:
+      - go-fundamentos-volume:/usr/src/app/
+  # bd:
+  #   image: mysql
+  #   container_name: go-db
+  #   restart: always
+  #   ports:
+  #     - 3306:3306
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: 123456
+  #   volumes:
+  #     - go-fundamentos-volume-db:/var/lib/mysql
+volumes:
+  go-fundamentos-volume:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${PWD}
+  # go-fundamentos-volume-db:
+  #   driver: local
+  #   driver_opts:
+  #     o: bind
+  #     type: none
+  #     device: ${PWD}/db
