@@ -9,27 +9,27 @@ services:
       - 5000:5000
     working_dir: /usr/src/app
     volumes:
-      - go-fundamentos-volume:/usr/src/app/
-  # bd:
-  #   image: mysql
-  #   container_name: go-db
-  #   restart: always
-  #   ports:
-  #     - 3306:3306
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: 123456
-  #   volumes:
-  #     - go-fundamentos-volume-db:/var/lib/mysql
+      - go-devbook-volume:/usr/src/app/
+  bd:
+    image: mysql
+    container_name: db-devbook
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - go-devbook-volume-db:/var/lib/mysql
 volumes:
-  go-fundamentos-volume:
+  go-devbook-volume:
     driver: local
     driver_opts:
       o: bind
       type: none
       device: ${PWD}
-  # go-fundamentos-volume-db:
-  #   driver: local
-  #   driver_opts:
-  #     o: bind
-  #     type: none
-  #     device: ${PWD}/db
+  go-devbook-volume-db:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${PWD}/db
