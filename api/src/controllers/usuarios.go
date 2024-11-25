@@ -1,11 +1,13 @@
 package controllers
 
 import (
+	"api/src/autenticacao"
 	"api/src/db"
 	"api/src/modelos"
 	"api/src/repositorios"
 	"api/src/respostas"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -106,6 +108,15 @@ func AtualizarUsuario(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	tokenUsuarioID, erro := autenticacao.ExtrairUsuarioID(r)
+	if erro != nil {
+		respostas.Erro(w, http.StatusUnauthorized, erro)
+	}
+
+	if usuarioID != tokenUsuarioID {
+		respostas.Erro(w, http.StatusForbidden, errors.New("Usuário inválido"))
+	}
+
 	corpoRequest, erro := ioutil.ReadAll(r.Body)
 	if erro != nil {
 		respostas.Erro(w, http.StatusUnprocessableEntity, erro)
@@ -147,6 +158,15 @@ func DeletarUsuario(w http.ResponseWriter, r *http.Request) {
 	if erro != nil {
 		respostas.Erro(w, http.StatusBadRequest, erro)
 		return
+	}
+
+	tokenUsuarioID, erro := autenticacao.ExtrairUsuarioID(r)
+	if erro != nil {
+		respostas.Erro(w, http.StatusUnauthorized, erro)
+	}
+
+	if usuarioID != tokenUsuarioID {
+		respostas.Erro(w, http.StatusForbidden, errors.New("Usuário inválido"))
 	}
 
 	db, erro := db.Conectar()
