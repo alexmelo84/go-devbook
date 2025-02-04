@@ -29,3 +29,17 @@ func init() {
 ```
 
 Esse código foi removido da versão final, mas poderia ter sido implementada uma lógica para gerá-lo apenas uma vez.
+
+## Misc
+
+Originalmente o *.env* estava no Git, para remover um arquivo já acompanhado pelo Git precisa adicioná-lo ao *.gitignore* e rodar os seguintes comandos:
+
+```
+git rm --cached folder/file.ext
+git add .
+# OR
+git add [path/to/files/modified]
+git commit -m "Commit message"
+git pull # if it's necessary
+git push origin master
+```
